@@ -5,12 +5,19 @@ int  yylex   ();
 void yyerror (char *);
 FILE *yyin;
 
-typedef struct tree_st {
-  char           *var_name;
-  char           *var_value;
-  struct tree_st *next;
-} tree_t;
+typedef struct KeyValSt {
+    char *keyName;
+    char *keyValue;
+    struct KeyValTree *next;
+} KeyValTree;
 
-//extern tree_t top, *cur;
+typedef struct GroupSt {
+    int groupType;
+    struct KeyValTree *keyVal;
+    struct GroupTree *next;
+} GroupTree;
+
+//extern GroupTree global, *curGroupTree, *curKeyValTree;
+
 
 #endif

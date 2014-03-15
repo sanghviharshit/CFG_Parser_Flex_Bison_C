@@ -1,5 +1,5 @@
 CC=cc
-TARGETS=example
+TARGETS=example flex-only
 
 all: $(TARGETS)
 
