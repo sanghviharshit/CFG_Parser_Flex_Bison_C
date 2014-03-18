@@ -8,13 +8,15 @@ FILE *yyin;
 typedef struct KeyValSt {
     char *keyName;
     char *keyValue;
-    struct KeyValTree *next;
+    char *keyType;
+    struct KeyValSt *nextKeyVal;
 } KeyValTree;
 
 typedef struct GroupSt {
     int groupType;
-    struct KeyValTree *keyVal;
-    struct GroupTree *next;
+    char *hostId;
+    KeyValTree *keyValPairsPtr;
+    struct GroupSt *nextGroup;
 } GroupTree;
 
 //extern GroupTree global, *curGroupTree, *curKeyValTree;

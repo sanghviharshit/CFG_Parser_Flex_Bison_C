@@ -1,16 +1,19 @@
-%error-verbose /* instruct bison to generate verbose error messages*/
-%{
-/* enable debugging of the parser: when yydebug is set to 1 before the
-* yyparse call the parser prints a lot of messages about what it does */
-#define YYDEBUG 1
-%}
-
-
 %{
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include "example.h"
-GroupTree global, *curGroupTree, *curKeyValTree;
+extern int lineNumber;
+extern int lexError;
+
+int override=0;
+
+KeyValTree* CreateKeyValPair(char *keyNamePassed, char *keyValuePassed, char *keyTypePassed);
+void PrintGroupTree();
+void CreateGroupTree(int groupTypePassed, char *hostIdPassed);
+
+GroupTree global, *curGroupTree, *topGroupTree, *tmpGroupTree;
+KeyValTree *curKeyValTree,*topKeyValTree, *tmpKeyValPtr, *tmpGloKeyValPtr, *tmpHostKeyValPtr;
 
 %}
 
@@ -18,74 +21,91 @@ GroupTree global, *curGroupTree, *curKeyValTree;
 %union {char *str; GroupTree *g; KeyValTree *kv;}
 %token<str> VAR INT FLOAT STR QUOTE COM HOSTID
 %token EQ GLO HOST FSLASH BSLASH OBRACE CBRACE SCOLON ERROR
+%type<str> hostid glo
+%type<g> global hosts
+%type<kv> keyvalpair
 
 %%
 prog:
 global
-|   global hosts {
-//                    printf("Value at cur: 0x%08x\n",cur);
-//                    printf("Address of top: 0x%08x\n",&top);
-//                  cur->next = $1; cur = cur->next;
-//                    printf("value at top.next 0x%08x\n",top.next);
-//                  printf("Assign %s to %s!\n", cur->var_value, cur->var_name);
-//                    printf(">>string accepted<<\n");
-                }
+|   global hosts {};
+
 global:
-GLO OBRACE keyvalpair CBRACE    {};
-|   GLO OBRACE CBRACE   {};
+glo OBRACE keyvalpair CBRACE    {
+	PrintGroupTree();
+	};
+|   glo OBRACE CBRACE   {
+	PrintGroupTree();
+};
 |   global SCOLON   {};
 
-
-/*  Alternate implementation
-global:
-GLO OBRACE rest    {};
-
-rest:
-keyvalpair CBRACE
-|   CBRACE
-|   rest SCOLON
-*/
+glo:
+GLO {
+	CreateGroupTree(0,"\0");
+//    printf(">>Created global<<\n");
+};
 
 
 hosts:
-HOST HOSTID OBRACE CBRACE   {
-    printf("Created host:");
-    };
-|   HOST HOSTID OBRACE keyvalpair CBRACE    {
-
-//    $$ = (GroupTree *)malloc(sizeof(GroupTree));
-//    $$->groupType = $1;
-//    $$->keyVal = $4;
-//    $$->next = 0;
-    printf("Created host:");
+HOST hostid OBRACE CBRACE   {
+		PrintGroupTree();
+};
+|   HOST hostid OBRACE keyvalpair CBRACE    {
+		PrintGroupTree();
     };
 |   hosts hosts     {};
 |   hosts SCOLON    {};
 
+hostid:
+    HOSTID  {
+		CreateGroupTree(1,$1);
+//        printf(">>Created host: %s<<\n", $1);
+    };
+
 
 keyvalpair:
-VAR EQ val  {
-    /*
-    $$ = (KeyValTree *)malloc(sizeof(KeyValTree));
-    $$->keyName = $1;
-    $$->keyValue = $3;
-    $$->next = 0;
-    printf("Set %s=>%s\n",$1,$3);
-     */
-    };
+VAR EQ INT  {
+    $$ = CreateKeyValPair($1,$3,"I");
+	//    printf("\t%s\t%s=%s\n",$$->keyType,$$->keyName,$$->keyValue);
+};
+|   VAR EQ FLOAT  {
+    $$ = CreateKeyValPair($1,$3,"F");
+//    printf("\t%s\t%s=%s\n",$$->keyType,$$->keyName,$$->keyValue);
+    
+};
+|   VAR EQ QUOTE  {
+    $$ = CreateKeyValPair($1,$3,"Q");
+//    printf("\t%s\t%s=%s\n",$$->keyType,$$->keyName,$$->keyValue);
+    
+};
+|   VAR EQ STR  {
+    $$ = CreateKeyValPair($1,$3,"S");
+//    printf("\t%s\t%s=%s\n",$$->keyType,$$->keyName,$$->keyValue);
+    
+};
 |   keyvalpair SCOLON       {};
 |   keyvalpair keyvalpair   {};
-
-val:
-INT {};
-|   FLOAT   {};
-|   QUOTE   {};
-|   STR     {};
 
 
 %%
 
 /*
+ Some alternatives:
+ global:
+ GLO OBRACE rest    {};
+ 
+ rest:
+ keyvalpair CBRACE
+ |   CBRACE
+ |   rest SCOLON
+ 
+ using val for INT, FLOAT, QUOTE, STRING
+ val:
+ INT {$$=$1;};
+ |   FLOAT   {   $$=$1;  };
+ |   QUOTE   {$$=$1;};
+ |   STR     {$$=$1;};
+
  | error { printf("Error before we saw a variable name.\n"); exit(0); }
  | SCOLON     {};
  
@@ -110,35 +130,128 @@ INT {};
 
 int main() {
     
-    FILE *myfile = fopen("x2.cfg", "r");
+    FILE *myfile = fopen("x6.cfg", "r");
     // make sure it's valid:
 	if (!myfile) {
-		printf("I can't open test.cfg!\n");
+		printf("ERR:F:\n");
 		return -1;
 	}
 	// set lex to read from it instead of defaulting to STDIN:
 	yyin = myfile;
-    
-//    
-//  top.next = 0;
-//  cur      = &top;
-//  printf("value at cur: 0x%08x\n",cur);
-//  printf("Address of top: 0x%08x\n",&top);
+	yyparse();
+}
 
-  yyparse();
-  printf("Let's walk the tree again:\n");
-/*
- 
-    cur = top.next; // The first node was a dummy node representing the <prog> production.
-//  printf("value at cur: 0x%08x\n", cur);
-  
-  while (cur) {
-    printf("%s: %s\n", cur->var_name, cur->var_value);
-    cur = cur->next;
-  }
-  */
+KeyValTree* CreateKeyValPair(char *keyNamePassed, char *keyValuePassed, char *keyTypePassed)
+{
+	KeyValTree *newKeyValPtr = (KeyValTree *)malloc(sizeof(KeyValTree));
+    newKeyValPtr->keyName = keyNamePassed;
+    newKeyValPtr->keyValue = keyValuePassed;
+    newKeyValPtr->keyType = keyTypePassed;
+    newKeyValPtr->nextKeyVal = 0;
+
+	if(topKeyValTree==0)
+    {
+        topKeyValTree = newKeyValPtr;
+        curKeyValTree = topKeyValTree;
+    }
+    else
+    {
+        curKeyValTree->nextKeyVal = newKeyValPtr;
+        curKeyValTree = curKeyValTree->nextKeyVal;
+    }
+	return newKeyValPtr;
+}
+
+void PrintGroupTree()
+{
+	curGroupTree->keyValPairsPtr = topKeyValTree;
+	//        printf(">>Linked Keys to %s<<\n",curGroupTree->hostId);
+	
+	tmpGroupTree = curGroupTree;
+	tmpKeyValPtr = tmpGroupTree->keyValPairsPtr;
+	if(tmpGroupTree->groupType==0)
+	{
+		printf("GLOBAL:\n");
+	}
+	else
+	{
+		printf("HOST %s:\n",tmpGroupTree->hostId);
+	}
+	while(tmpKeyValPtr)
+	{
+		printf("    %s:",tmpKeyValPtr->keyType);
+		
+		if(tmpGroupTree->groupType!=0)
+		{
+			tmpGloKeyValPtr = topGroupTree->keyValPairsPtr;
+			
+			while(tmpGloKeyValPtr)
+			{
+				if(!strcmp(tmpGloKeyValPtr->keyName,tmpKeyValPtr->keyName))
+				{
+					override = 1;
+				}
+				tmpGloKeyValPtr = tmpGloKeyValPtr->nextKeyVal;
+			}
+		}
+		
+		tmpHostKeyValPtr = curGroupTree->keyValPairsPtr;
+		while(tmpHostKeyValPtr && tmpHostKeyValPtr!=tmpKeyValPtr)
+		{
+			if(!strcmp(tmpHostKeyValPtr->keyName,tmpKeyValPtr->keyName))
+			{
+				override = 1;
+			}
+			tmpHostKeyValPtr = tmpHostKeyValPtr->nextKeyVal;
+		}
+		
+		if(override==1)
+		{
+			printf("O");
+			override=0;
+		}
+		printf(":%s:",tmpKeyValPtr->keyName);
+		
+		if(strcmp(tmpKeyValPtr->keyType,"Q")==0)
+		{
+			printf("\"\"\"");
+		}
+		
+		printf("%s",tmpKeyValPtr->keyValue);
+		if(strcmp(tmpKeyValPtr->keyType,"Q")==0)
+		{
+			printf("\"\"\"");
+		}
+		printf("\n");
+		tmpKeyValPtr = tmpKeyValPtr->nextKeyVal;
+	};
+}
+
+void CreateGroupTree(int groupTypePassed, char *hostIdPassed)
+{
+	tmpGroupTree = (GroupTree *)malloc(sizeof(GroupTree));
+    tmpGroupTree->groupType = groupTypePassed;
+    tmpGroupTree->nextGroup = 0;
+
+	topKeyValTree = 0;
+	tmpGroupTree->keyValPairsPtr = topKeyValTree;
+
+	if(groupTypePassed == 0)
+	{
+		topGroupTree = tmpGroupTree;
+		curGroupTree = tmpGroupTree;
+	}
+	else
+	{
+        tmpGroupTree->hostId = hostIdPassed;
+        curGroupTree->nextGroup = tmpGroupTree;
+        curGroupTree = curGroupTree->nextGroup;
+	}
 }
 
 void yyerror (char *s) {
-  printf ("%s\n", s);
+    if(lexError==0)
+    {
+        printf ("ERR:P:%d\n",lineNumber);
+    }
 }
