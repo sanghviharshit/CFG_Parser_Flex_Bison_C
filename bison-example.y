@@ -5,7 +5,7 @@
 #include "example.h"
 extern int lineNumber;
 extern int lexError;
-
+extern int startScolonLine;
 int override=0;
 
 KeyValTree* CreateKeyValPair(char *keyNamePassed, char *keyValuePassed, char *keyTypePassed);
@@ -14,7 +14,6 @@ void CreateGroupTree(int groupTypePassed, char *hostIdPassed);
 
 GroupTree global, *curGroupTree, *topGroupTree, *tmpGroupTree;
 KeyValTree *curKeyValTree,*topKeyValTree, *tmpKeyValPtr, *tmpGloKeyValPtr, *tmpHostKeyValPtr;
-
 %}
 
 
@@ -66,7 +65,7 @@ hostid:
 keyvalpair:
 VAR EQ INT  {
     $$ = CreateKeyValPair($1,$3,"I");
-	//    printf("\t%s\t%s=%s\n",$$->keyType,$$->keyName,$$->keyValue);
+//    printf("\t%s\t%s=%s\n",$$->keyType,$$->keyName,$$->keyValue);
 };
 |   VAR EQ FLOAT  {
     $$ = CreateKeyValPair($1,$3,"F");
@@ -83,8 +82,12 @@ VAR EQ INT  {
 //    printf("\t%s\t%s=%s\n",$$->keyType,$$->keyName,$$->keyValue);
     
 };
-|   keyvalpair SCOLON       {};
+|   keyvalpair SCOLON       {
+        printf ("ERR:P:%d\n",startScolonLine);
+		exit(0);
+};
 |   keyvalpair keyvalpair   {};
+
 
 
 %%
@@ -126,11 +129,12 @@ VAR EQ INT  {
 
  
  X = 12 Y = 13 END
- */
+ 
+*/
 
 int main() {
     
-    FILE *myfile = fopen("x6.cfg", "r");
+    FILE *myfile = fopen("x1.cfg", "r");
     // make sure it's valid:
 	if (!myfile) {
 		printf("ERR:F:\n");

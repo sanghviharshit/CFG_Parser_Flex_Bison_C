@@ -5,11 +5,21 @@
 ^"global"/[ \t]*"{"[^}]*"}"[;]*
 ^"host"/{space}+{hostid}+[ \t]*"{"[^}]*"}"[ \t]*[;]*
 {hostid}+/[ \t]*"{"[^}]*"}"[ \t]*[;]*
+ 
+";"/[^;][ \t\n]*[^;]         {
+ //    printf(">>%s<<\n", yytext);
+ return  SCOLON;
+ }
+ 
+ ";"/[ \t]*[\n]+	{
+ return ERROR;
+ }
+ 
 */
 
-int lineNumber=0;
+int lineNumber=1;
 int lexError = 0;
-
+int startScolonLine = 0;
 char strBuf[100];
 
 char *qStr;
@@ -17,7 +27,7 @@ char *qStr;
 %}
 
 %x QSTRING
-
+%x SCLN
 
 %option noyywrap
 %option yylineno
@@ -26,36 +36,60 @@ digit   [0-9]
 sign    "+"|"-"
 space   [ \t]
 alnum   [0-9a-zA-Z]
-hostid  [0-9a-zA-Z]|[_\-\.]
-comment "#"[^\n]*$
+hostid  [0-9a-zA-Z]|[_]|[-]|[.]
+comment "#"[^\n]*[\n]
+endkeyval [ \t]*[}\n;#]+
+
+
+
 %%
 
-
-"#"[^\n]*$  {
+"#"[^\n]*/[\n]  {
 //    printf("Comment: (Ignored) >>%s<<\n", yytext);
 }
 
-^"global"/[ \t]*"{" {
+"global"/[ \t\n]*{comment}*{space}*[{] {
 //    printf("Found Global Group\n");
     return  GLO;
 }
 
-^"host"    {
+"host"/[ \t\n]+{hostid}+[ \t\n]*[{#]    {
 //    printf("Found Host Group: %s\n",yytext);
     return  HOST;
 }
 
-{hostid}+/[ \t]*"{"   {
+{hostid}+/[ \t\n]*{comment}*{space}*[{]   {
 //    printf("Host ID: >>%s<<\n", yytext);
     yylval.str=strdup(yytext);
     return HOSTID;
 }
 
-[_a-zA-Z][_0-9a-zA-Z]*/[ \t]*"="  {
+[_a-zA-Z][_0-9a-zA-Z]*/[ \t\n]*"="  {
 //    printf("Key: >>%s<<\n", yytext); yylval.str=strdup(yytext);
     yylval.str=strdup(yytext);
     return VAR;
 }
+
+
+([/]|[a-zA-Z])+([_]|[/]|[.]|[\-]|[a-zA-Z0-9])*/{endkeyval}	{
+//    printf("Value: Unquoted String: >>%s<<\n", yytext);
+    yylval.str=strdup(yytext);
+    return STR;
+}
+
+{sign}?{digit}+/{endkeyval}  {
+//	printf("Value: Int: >>%s<<\n", yytext); yylval.str=strdup(yytext);
+    yylval.str=strdup(yytext);
+    return INT;
+}
+
+{sign}?{digit}+"."{digit}+ {
+//	printf("Value: Float: >>%s<<\n", yytext); yylval.str=strdup(yytext);
+    yylval.str=strdup(yytext);
+    return FLOAT;
+}
+
+
 
 
 \"				{
@@ -69,7 +103,7 @@ comment "#"[^\n]*$
 }
 
 <QSTRING>"\\\\r"	{
-	//	printf("\nNL:");
+//	printf("\nNL:");
 	*qStr++ = '\r';
 }
 
@@ -77,9 +111,11 @@ comment "#"[^\n]*$
 	*qStr++ = '\"';
 }
 
-<QSTRING>"\""      {
+<QSTRING>"\""/{endkeyval}	{
 	*qStr = 0;
 	BEGIN 0;
+//	printf("QString: %s\n",yytext);
+//    printf("LineNumber: %d\n",lineNumber);
 //	printf("found '%s'\n", strBuf);
 	yylval.str=strdup(strBuf);
 	return QUOTE;
@@ -94,39 +130,15 @@ comment "#"[^\n]*$
 <QSTRING>"\n"      {
 //	printf("\t\t>>invalid string:%s<<\n",yytext);
 	lexError = 1;
-	printf("ERR:L:%d\n", yylineno);
+	printf("ERR:L:%d\n", lineNumber);
 	return ERROR;
 }
 
 <QSTRING>.       {
+//	printf("%s",yytext);
 	*qStr++ = *yytext;
 }
 
-
-([/]|[a-zA-Z])+([_]|[/]|[.]|[\-]|[a-zA-Z0-9])*   {
-//    printf("Value: Unquoted String: >>%s<<\n", yytext);
-    yylval.str=strdup(yytext);
-    return STR;
-}
-
-
-{sign}?{digit}+    {
-//    printf("Value: Int: >>%s<<\n", yytext); yylval.str=strdup(yytext);
-    yylval.str=strdup(yytext);
-    return INT;
-}
-
-{sign}?{digit}+"."{digit}+ {
-//    printf("Value: Float: >>%s<<\n", yytext); yylval.str=strdup(yytext);
-    yylval.str=strdup(yytext);
-    return FLOAT;
-}
-
-
-"/"         {
-//    printf(">>%s<<\n", yytext);
-    return  FSLASH;
-}
 
 "{"         {
 //    printf(">>%s<<\n", yytext);
@@ -138,14 +150,46 @@ comment "#"[^\n]*$
     return  CBRACE;
 }
 
+
+
 ";"         {
 //    printf(">>%s<<\n", yytext);
-    return  SCOLON;
+	startScolonLine = lineNumber;
+//    printf("Start SCOLON LineNumber: %d\n",lineNumber);
+	BEGIN SCLN;
 }
 
-"\\"        {
-//    printf(">>%s<<\n", yytext);
-    return  BSLASH;
+<SCLN>{space}*/[;]	{
+	BEGIN 0;
+//	printf("LineNumber: %d\n",lineNumber);
+	return ERROR;
+}
+
+<SCLN>[\n]/";"	{
+	lineNumber++;
+//	printf("LineNumber: %d\n",lineNumber);
+//	printf("\t=>%s<=\n",yytext);
+	BEGIN 0;
+	return ERROR;
+}
+<SCLN>[\n]	{
+	lineNumber++;
+//	printf("LineNumber: %d\n",lineNumber);
+}
+
+
+<SCLN>[\n]/{space}*[^;]+	{
+	lineNumber++;
+//    printf("LineNumber: %d\n",lineNumber);
+//	printf("\t=>%s<=\n",yytext);
+	BEGIN 0;
+	return SCOLON;
+}
+
+<SCLN>{space}*/#	{
+	BEGIN 0;
+	return SCOLON;
+
 }
 
 "="         {
@@ -153,26 +197,26 @@ comment "#"[^\n]*$
     return  EQ;
 }
 
-[ \t]+   {
+{space}   {
 /* Ignore white space. */
 }
 
 "\0"	{
     lexError = 1;
-	//    printf(">>%s<<\n", yytext);
-    printf("ERR:L:%d\n", yylineno);
+//    printf(">>%s<<\n", yytext);
+    printf("ERR:L:%d\n", lineNumber);
     return ERROR;
 }
 
 [\n]    {
-    lineNumber = yylineno;
-//    printf("Linenumner: %d\n",yylineno);
+    lineNumber++;
+//    printf("LineNumber: %d\n",lineNumber);
 }
 
 .          {
     lexError = 1;
 //    printf(">>%s<<\n", yytext);
-    printf("ERR:L:%d\n", yylineno);
+    printf("ERR:L:%d\n", lineNumber);
     return ERROR;
 }
 

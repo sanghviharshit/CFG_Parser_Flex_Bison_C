@@ -1,4 +1,4 @@
-CC=cc
+CC=cc -g -ggdb
 TARGETS=example flex-only
 
 all: $(TARGETS)
@@ -22,4 +22,4 @@ c-only: c_example.c
 	$(CC) -o c-only c_example.c
 
 clean:
-	-rm *.o *~ bison-example.tab.c bison-example.tab.h lex.yy.c $(TARGETS)
+	-rm *.o bison-example.tab.c bison-example.tab.h lex.yy.c $(TARGETS)

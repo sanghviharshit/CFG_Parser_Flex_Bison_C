@@ -34,11 +34,11 @@ hostid  [0-9a-zA-Z]|[_\-\.]
 
 "#"[^\n]*   {   printf("Comment: (Ignored) >>%s<<\n", yytext);   return COM; }
 
-^"global"/[ \t]*"{"[^}]*"}"[;]*    {     printf("Found Global Group\n"); return  GLO;    }
+"global"/[ \t]*"{"[^}]*"}"[;]*    {     printf("Found Global Group\n"); return  GLO;    }
 
-^"host"/{space}+{hostid}+[ \t]*"{"[^}]*"}"[ \t]*[;]*    {   printf("Found Host Group\n"); return  HOST;   }
+"host"/{space}+{hostid}+[ \t]*"{"[^}]*"}"[ \t]*[;]*    {   printf("Found Host Group\n"); return  HOST;   }
 
-{hostid}+/[ \t]*"{"[^}]*"}"[ \t]*[;]*  {   printf("Host ID: >>%s<<\n", yytext);    return STR; }
+{hostid}+/[ \t]*"{"[^}]*"}"[ \t\n]*[;]*  {   printf("Host ID: >>%s<<\n", yytext);    return STR; }
 
 [_a-zA-Z][_[:alnum:]]*/[ \t]*"="  { printf("Key: >>%s<<\n", yytext); return VAR; }
 
