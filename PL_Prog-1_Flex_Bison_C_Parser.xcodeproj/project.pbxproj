@@ -6,45 +6,33 @@
 	objectVersion = 46;
 	objects = {
 
-/* Begin PBXBuildFile section */
-		EEDBD0A218D3C9D000E8E6AA /* main.c in Sources */ = {isa = PBXBuildFile; fileRef = EEDBD0A118D3C9D000E8E6AA /* main.c */; };
-		EEDBD0A418D3C9D000E8E6AA /* C_Parser.1 in CopyFiles */ = {isa = PBXBuildFile; fileRef = EEDBD0A318D3C9D000E8E6AA /* C_Parser.1 */; };
-/* End PBXBuildFile section */
-
-/* Begin PBXCopyFilesBuildPhase section */
-		EEDBD09C18D3C9D000E8E6AA /* CopyFiles */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = /usr/share/man/man1/;
-			dstSubfolderSpec = 0;
-			files = (
-				EEDBD0A418D3C9D000E8E6AA /* C_Parser.1 in CopyFiles */,
-			);
-			runOnlyForDeploymentPostprocessing = 1;
-		};
-/* End PBXCopyFilesBuildPhase section */
-
 /* Begin PBXFileReference section */
-		EEDBD09E18D3C9D000E8E6AA /* C_Parser */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = C_Parser; sourceTree = BUILT_PRODUCTS_DIR; };
-		EEDBD0A118D3C9D000E8E6AA /* main.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = main.c; sourceTree = "<group>"; };
-		EEDBD0A318D3C9D000E8E6AA /* C_Parser.1 */ = {isa = PBXFileReference; lastKnownFileType = text.man; path = C_Parser.1; sourceTree = "<group>"; };
+		EEDBD0AE18D3CA8600E8E6AA /* flex-file.f */ = {isa = PBXFileReference; explicitFileType = sourcecode.lex; fileEncoding = 4; path = "flex-file.f"; sourceTree = "<group>"; usesTabs = 1; };
+		EEDBD0AF18D3CA8600E8E6AA /* data-struct-file.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "data-struct-file.h"; sourceTree = "<group>"; usesTabs = 1; };
+		EEDBD0B018D3CA8600E8E6AA /* bison-c-file.y */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.yacc; path = "bison-c-file.y"; sourceTree = "<group>"; usesTabs = 1; };
+		EEDBD0B218D401F600E8E6AA /* Makefile */ = {isa = PBXFileReference; explicitFileType = sourcecode.make; fileEncoding = 4; path = Makefile; sourceTree = "<group>"; usesTabs = 1; };
+		EEDBD0B418D4F97700E8E6AA /* x6.cfg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = x6.cfg; sourceTree = "<group>"; usesTabs = 1; };
+		EEDBD0B518D4F97700E8E6AA /* test.cfg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = test.cfg; sourceTree = "<group>"; usesTabs = 1; };
+		EEDBD0B618D4F97700E8E6AA /* x2.cfg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = x2.cfg; sourceTree = "<group>"; usesTabs = 1; };
+		EEDBD0B718D4F97700E8E6AA /* x3.cfg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = x3.cfg; sourceTree = "<group>"; usesTabs = 1; };
+		EEDBD0B818D4F97700E8E6AA /* x4.cfg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = x4.cfg; sourceTree = "<group>"; usesTabs = 1; };
+		EEDBD0B918D4F97700E8E6AA /* x5.cfg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = x5.cfg; sourceTree = "<group>"; usesTabs = 1; };
 /* End PBXFileReference section */
-
-/* Begin PBXFrameworksBuildPhase section */
-		EEDBD09B18D3C9D000E8E6AA /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-/* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
 		EEDBD09518D3C9D000E8E6AA = {
 			isa = PBXGroup;
 			children = (
-				EEDBD0A018D3C9D000E8E6AA /* C_Parser */,
+				EEDBD0B518D4F97700E8E6AA /* test.cfg */,
+				EEDBD0B618D4F97700E8E6AA /* x2.cfg */,
+				EEDBD0B718D4F97700E8E6AA /* x3.cfg */,
+				EEDBD0B818D4F97700E8E6AA /* x4.cfg */,
+				EEDBD0B918D4F97700E8E6AA /* x5.cfg */,
+				EEDBD0B418D4F97700E8E6AA /* x6.cfg */,
+				EEDBD0B218D401F600E8E6AA /* Makefile */,
+				EEDBD0AE18D3CA8600E8E6AA /* flex-file.f */,
+				EEDBD0AF18D3CA8600E8E6AA /* data-struct-file.h */,
+				EEDBD0B018D3CA8600E8E6AA /* bison-c-file.y */,
 				EEDBD09F18D3C9D000E8E6AA /* Products */,
 			);
 			sourceTree = "<group>";
@@ -52,41 +40,28 @@
 		EEDBD09F18D3C9D000E8E6AA /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				EEDBD09E18D3C9D000E8E6AA /* C_Parser */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		EEDBD0A018D3C9D000E8E6AA /* C_Parser */ = {
-			isa = PBXGroup;
-			children = (
-				EEDBD0A118D3C9D000E8E6AA /* main.c */,
-				EEDBD0A318D3C9D000E8E6AA /* C_Parser.1 */,
-			);
-			path = C_Parser;
-			sourceTree = "<group>";
-		};
 /* End PBXGroup section */
 
-/* Begin PBXNativeTarget section */
-		EEDBD09D18D3C9D000E8E6AA /* C_Parser */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = EEDBD0A718D3C9D000E8E6AA /* Build configuration list for PBXNativeTarget "C_Parser" */;
+/* Begin PBXLegacyTarget section */
+		EE4027D218EB5841003F1BF1 /* CMake */ = {
+			isa = PBXLegacyTarget;
+			buildArgumentsString = "$(ACTION)";
+			buildConfigurationList = EE4027D518EB5841003F1BF1 /* Build configuration list for PBXLegacyTarget "CMake" */;
 			buildPhases = (
-				EEDBD09A18D3C9D000E8E6AA /* Sources */,
-				EEDBD09B18D3C9D000E8E6AA /* Frameworks */,
-				EEDBD09C18D3C9D000E8E6AA /* CopyFiles */,
 			);
-			buildRules = (
-			);
+			buildToolPath = /usr/bin/make;
+			buildWorkingDirectory = /Users/harshit/Documents/workspace/C_Parser;
 			dependencies = (
 			);
-			name = C_Parser;
-			productName = C_Parser;
-			productReference = EEDBD09E18D3C9D000E8E6AA /* C_Parser */;
-			productType = "com.apple.product-type.tool";
+			name = CMake;
+			passBuildSettingsInEnvironment = 1;
+			productName = CMake;
 		};
-/* End PBXNativeTarget section */
+/* End PBXLegacyTarget section */
 
 /* Begin PBXProject section */
 		EEDBD09618D3C9D000E8E6AA /* Project object */ = {
@@ -95,7 +70,7 @@
 				LastUpgradeCheck = 0510;
 				ORGANIZATIONNAME = Harshit;
 			};
-			buildConfigurationList = EEDBD09918D3C9D000E8E6AA /* Build configuration list for PBXProject "C_Parser" */;
+			buildConfigurationList = EEDBD09918D3C9D000E8E6AA /* Build configuration list for PBXProject "PL_Prog-1_Flex_Bison_C_Parser" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -107,23 +82,37 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				EEDBD09D18D3C9D000E8E6AA /* C_Parser */,
+				EE4027D218EB5841003F1BF1 /* CMake */,
 			);
 		};
 /* End PBXProject section */
 
-/* Begin PBXSourcesBuildPhase section */
-		EEDBD09A18D3C9D000E8E6AA /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				EEDBD0A218D3C9D000E8E6AA /* main.c in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-/* End PBXSourcesBuildPhase section */
-
 /* Begin XCBuildConfiguration section */
+		EE4027D318EB5841003F1BF1 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				DEBUGGING_SYMBOLS = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = "";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		EE4027D418EB5841003F1BF1 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = "";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
 		EEDBD0A518D3C9D000E8E6AA /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -194,24 +183,18 @@
 			};
 			name = Release;
 		};
-		EEDBD0A818D3C9D000E8E6AA /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				PRODUCT_NAME = "$(TARGET_NAME)";
-			};
-			name = Debug;
-		};
-		EEDBD0A918D3C9D000E8E6AA /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				PRODUCT_NAME = "$(TARGET_NAME)";
-			};
-			name = Release;
-		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		EEDBD09918D3C9D000E8E6AA /* Build configuration list for PBXProject "C_Parser" */ = {
+		EE4027D518EB5841003F1BF1 /* Build configuration list for PBXLegacyTarget "CMake" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				EE4027D318EB5841003F1BF1 /* Debug */,
+				EE4027D418EB5841003F1BF1 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		EEDBD09918D3C9D000E8E6AA /* Build configuration list for PBXProject "PL_Prog-1_Flex_Bison_C_Parser" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				EEDBD0A518D3C9D000E8E6AA /* Debug */,
@@ -219,14 +202,6 @@
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
-		};
-		EEDBD0A718D3C9D000E8E6AA /* Build configuration list for PBXNativeTarget "C_Parser" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				EEDBD0A818D3C9D000E8E6AA /* Debug */,
-				EEDBD0A918D3C9D000E8E6AA /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
 		};
 /* End XCConfigurationList section */
 	};

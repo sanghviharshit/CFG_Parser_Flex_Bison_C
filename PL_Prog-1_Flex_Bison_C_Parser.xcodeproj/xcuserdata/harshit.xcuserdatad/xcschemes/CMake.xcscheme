@@ -14,10 +14,10 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "EEDBD09D18D3C9D000E8E6AA"
-               BuildableName = "C_Parser"
-               BlueprintName = "C_Parser"
-               ReferencedContainer = "container:C_Parser.xcodeproj">
+               BlueprintIdentifier = "EE4027D218EB5841003F1BF1"
+               BuildableName = "CMake"
+               BlueprintName = "CMake"
+               ReferencedContainer = "container:PL_Prog-1_Flex_Bison_C_Parser.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -29,15 +29,6 @@
       buildConfiguration = "Debug">
       <Testables>
       </Testables>
-      <MacroExpansion>
-         <BuildableReference
-            BuildableIdentifier = "primary"
-            BlueprintIdentifier = "EEDBD09D18D3C9D000E8E6AA"
-            BuildableName = "C_Parser"
-            BlueprintName = "C_Parser"
-            ReferencedContainer = "container:C_Parser.xcodeproj">
-         </BuildableReference>
-      </MacroExpansion>
    </TestAction>
    <LaunchAction
       selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
@@ -48,15 +39,9 @@
       ignoresPersistentStateOnLaunch = "NO"
       debugDocumentVersioning = "YES"
       allowLocationSimulation = "YES">
-      <BuildableProductRunnable>
-         <BuildableReference
-            BuildableIdentifier = "primary"
-            BlueprintIdentifier = "EEDBD09D18D3C9D000E8E6AA"
-            BuildableName = "C_Parser"
-            BlueprintName = "C_Parser"
-            ReferencedContainer = "container:C_Parser.xcodeproj">
-         </BuildableReference>
-      </BuildableProductRunnable>
+      <PathRunnable
+         FilePath = "/Users/harshit/Documents/workspace/C_Parser/imp1">
+      </PathRunnable>
       <AdditionalOptions>
       </AdditionalOptions>
    </LaunchAction>
@@ -66,15 +51,9 @@
       useCustomWorkingDirectory = "NO"
       buildConfiguration = "Release"
       debugDocumentVersioning = "YES">
-      <BuildableProductRunnable>
-         <BuildableReference
-            BuildableIdentifier = "primary"
-            BlueprintIdentifier = "EEDBD09D18D3C9D000E8E6AA"
-            BuildableName = "C_Parser"
-            BlueprintName = "C_Parser"
-            ReferencedContainer = "container:C_Parser.xcodeproj">
-         </BuildableReference>
-      </BuildableProductRunnable>
+      <PathRunnable
+         FilePath = "/Users/harshit/Documents/workspace/C_Parser/imp1">
+      </PathRunnable>
    </ProfileAction>
    <AnalyzeAction
       buildConfiguration = "Debug">

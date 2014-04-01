@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>5BA2E90E-403C-4F76-9CC7-7C5D64D8CF68</string>
+	<key>IDESourceControlProjectName</key>
+	<string>C_Parser</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>12B9B70C-E3ED-4B69-B7B9-7F64A2972EA3</key>
+		<string>https://github.com/sanghviharshit/Bison_Yacc_C_Parser.git</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>C_Parser.xcodeproj/project.xcworkspace</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>12B9B70C-E3ED-4B69-B7B9-7F64A2972EA3</key>
+		<string>../..</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>https://github.com/sanghviharshit/Bison_Yacc_C_Parser.git</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>110</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>12B9B70C-E3ED-4B69-B7B9-7F64A2972EA3</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>12B9B70C-E3ED-4B69-B7B9-7F64A2972EA3</string>
+			<key>IDESourceControlWCCName</key>
+			<string>C_Parser</string>
+		</dict>
+	</array>
+</dict>
+</plist>

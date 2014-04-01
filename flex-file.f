@@ -1,6 +1,6 @@
 %{
-#include "example.h"
-#include "bison-example.tab.h"
+#include "data-struct-file.h"
+#include "bison-c-file.tab.h"
 /* Better parsing with
 ^"global"/[ \t]*"{"[^}]*"}"[;]*
 ^"host"/{space}+{hostid}+[ \t]*"{"[^}]*"}"[ \t]*[;]*
@@ -134,9 +134,15 @@ endkeyval [ \t]*[}\n;#]+
 	return ERROR;
 }
 
-<QSTRING>.       {
+<QSTRING>[ -~]       {
 //	printf("%s",yytext);
 	*qStr++ = *yytext;
+}
+<QSTRING>[^ -~]      {
+	//	printf("\t\t>>invalid string:%s<<\n",yytext);
+	lexError = 1;
+	printf("ERR:L:%d\n", lineNumber);
+	return ERROR;
 }
 
 

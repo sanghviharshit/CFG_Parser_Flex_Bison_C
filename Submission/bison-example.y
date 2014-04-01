@@ -134,11 +134,11 @@ VAR EQ INT  {
 
 int main() {
     
-    FILE *myfile = fopen("x1.cfg", "r");
+    FILE *myfile = fopen("test.cfg", "r");
     // make sure it's valid:
 	if (!myfile) {
 		printf("ERR:F:\n");
-		return -1;
+		return 0;
 	}
 	// set lex to read from it instead of defaulting to STDIN:
 	yyin = myfile;
