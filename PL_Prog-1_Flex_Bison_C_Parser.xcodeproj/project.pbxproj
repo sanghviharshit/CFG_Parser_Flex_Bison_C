@@ -54,7 +54,7 @@
 			buildPhases = (
 			);
 			buildToolPath = /usr/bin/make;
-			buildWorkingDirectory = /Users/harshit/Documents/workspace/C_Parser;
+			buildWorkingDirectory = "/Users/harshit/Documents/workspace/PL_Prog-1_Flex_Bison_C_Parser";
 			dependencies = (
 			);
 			name = CMake;
@@ -193,6 +193,7 @@
 				EE4027D418EB5841003F1BF1 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		EEDBD09918D3C9D000E8E6AA /* Build configuration list for PBXProject "PL_Prog-1_Flex_Bison_C_Parser" */ = {
 			isa = XCConfigurationList;

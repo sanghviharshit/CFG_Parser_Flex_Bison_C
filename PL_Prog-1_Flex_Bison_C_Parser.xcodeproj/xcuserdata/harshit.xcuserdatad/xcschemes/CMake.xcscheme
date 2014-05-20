@@ -40,7 +40,7 @@
       debugDocumentVersioning = "YES"
       allowLocationSimulation = "YES">
       <PathRunnable
-         FilePath = "/Users/harshit/Documents/workspace/C_Parser/imp1">
+         FilePath = "/Users/harshit/Documents/workspace/PL_Prog-1_Flex_Bison_C_Parser/imp1">
       </PathRunnable>
       <AdditionalOptions>
       </AdditionalOptions>
