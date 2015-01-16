@@ -134,7 +134,7 @@ VAR EQ INT  {
 
 int main() {
     
-    FILE *myfile = fopen("test.cfg", "r");
+    FILE *myfile = fopen("test/test.cfg", "r");
     // make sure it's valid:
 	if (!myfile) {
 		printf("ERR:F:\n");

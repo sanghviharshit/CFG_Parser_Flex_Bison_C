@@ -3,16 +3,16 @@ TARGETS= imp1
 
 all: $(TARGETS)
 
-imp1: bison-c-file.tab.o lex.yy.o
-	$(CC) -o  imp1 bison-c-file.tab.o lex.yy.o
+imp1: build/bison-c-file.tab.o build/lex.yy.o
+	$(CC) -o  bin/imp1 build/bison-c-file.tab.o build/lex.yy.o
 
-bison-c-file.tab.o: data-struct-file.h bison-c-file.y
-	bison -d bison-c-file.y
-	$(CC) -c bison-c-file.tab.c
+build/bison-c-file.tab.o: 
+	bison -b build/bison-c-file -d src/bison-c-file.y
+	$(CC) -I include -o build/bison-c-file.tab.o -c build/bison-c-file.tab.c
 
-lex.yy.o: data-struct-file.h bison-c-file.tab.h flex-file.f
-	flex flex-file.f
-	$(CC) -c lex.yy.c
+build/lex.yy.o:
+	flex -o build/lex.yy.c src/flex-file.f
+	$(CC) -I include -o build/lex.yy.o -c build/lex.yy.c
 
 clean:
-	-rm *.o bison-c-file.tab.c bison-c-file.tab.h lex.yy.c $(TARGETS)
+	-rm build/* bin/$(TARGETS)
